@@ -1,12 +1,12 @@
 create TABLE train_course
 (
-id INT PRIMARY KEY,
+id SERIAL PRIMARY KEY,
 course_name VARCHAR(30)
 );
 
 create TABLE eat_course
 (
-id INT PRIMARY KEY,
+id SERIAL PRIMARY KEY,
 kilocalories INT,
 proteins INT,
 carbs INT,
@@ -16,9 +16,9 @@ water FLOAT
 
 create TABLE user_info
 (
-id INT PRIMARY KEY,
-train_course_id INT NOT NULL unique REFERENCES  train_course (id),
-eat_course_id INT NOT NULL REFERENCES  eat_course (id),
+id SERIAL PRIMARY KEY,
+train_course_id INT NOT NULL REFERENCES  train_course (id),
+eat_course_id INT NOT NULL UNIQUE REFERENCES  eat_course (id),
 username VARCHAR(50),
 pas VARCHAR(30),
 first_name VARCHAR(30),
@@ -29,7 +29,7 @@ weight FLOAT
 
 create TABLE train_day
 (
-id INT PRIMARY KEY,
+id SERIAL PRIMARY KEY,
 train_day_name VARCHAR(50),
 rest TEXT
 );
@@ -42,7 +42,7 @@ id_train_course INT REFERENCES train_course (id)
 
 create TABLE exercise
 (
-id INT PRIMARY KEY,
+id SERIAL PRIMARY KEY,
 "name" VARCHAR(30),
 sets VARCHAR(10),
 reps VARCHAR(10),
