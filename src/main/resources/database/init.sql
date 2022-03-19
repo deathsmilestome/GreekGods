@@ -1,37 +1,50 @@
-create TABLE train_course
+CREATE TABLE IF NOT EXISTS train_course
 (
-id INT PRIMARY KEY,
-course_name VARCHAR(30)
+    id integer NOT NULL DEFAULT nextval('train_course_id_seq'::regclass),
+    course_name character varying(30) COLLATE pg_catalog."default",
+    CONSTRAINT train_course_pkey PRIMARY KEY (id)
 );
 
-create TABLE eat_course
+CREATE TABLE IF NOT EXISTS public.eat_course
 (
-id INT PRIMARY KEY,
-kilocalories INT,
-proteins INT,
-carbs INT,
-fats INT,
-water FLOAT
+    id bigint NOT NULL DEFAULT nextval('eat_course_id_seq'::regclass),
+    kilocalories integer,
+    proteins integer,
+    carbs integer,
+    fats integer,
+    water double precision,
+    CONSTRAINT eat_course_pkey PRIMARY KEY (id)
 );
 
-create TABLE user_info
+CREATE TABLE IF NOT EXISTS user_info
 (
-id INT PRIMARY KEY,
-train_course_id INT NOT NULL unique REFERENCES  train_course (id),
-eat_course_id INT NOT NULL REFERENCES  eat_course (id),
-username VARCHAR(50),
-pas VARCHAR(30),
-first_name VARCHAR(30),
-second_name VARCHAR(30),
-phone BIGINT,
-weight FLOAT
+    id bigint NOT NULL DEFAULT nextval('user_info_id_seq'::regclass),
+    train_course_id integer NOT NULL DEFAULT 0,
+    eat_course_id bigint NOT NULL DEFAULT 0,
+    username character varying(50) COLLATE pg_catalog."default",
+    pas character varying(30) COLLATE pg_catalog."default",
+    first_name character varying(30) COLLATE pg_catalog."default",
+    second_name character varying(30) COLLATE pg_catalog."default",
+    phone bigint,
+    weight double precision,
+    CONSTRAINT user_info_pkey PRIMARY KEY (id),
+    CONSTRAINT user_info_eat_course_id_key UNIQUE (eat_course_id),
+    CONSTRAINT user_info_eat_course_id_fkey FOREIGN KEY (eat_course_id)
+        REFERENCES public.eat_course (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT user_info_train_course_id_fkey FOREIGN KEY (train_course_id)
+        REFERENCES public.train_course (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 );
 
-create TABLE train_day
+CREATE TABLE IF NOT EXISTS train_day
 (
-id INT PRIMARY KEY,
-train_day_name VARCHAR(50),
-rest TEXT
+    id integer NOT NULL DEFAULT nextval('train_day_id_seq'::regclass),
+    train_day_name character varying(50) COLLATE pg_catalog."default",
+    rest text COLLATE pg_catalog."default",
+    CONSTRAINT train_day_pkey PRIMARY KEY (id)
 );
 
 create TABLE train_day_to_train_course
@@ -40,14 +53,15 @@ id_train_day INT REFERENCES train_day (id),
 id_train_course INT REFERENCES train_course (id)
 );
 
-create TABLE exercise
+CREATE TABLE IF NOT EXISTS exercise
 (
-id INT PRIMARY KEY,
-"name" VARCHAR(30),
-sets VARCHAR(10),
-reps VARCHAR(10),
-weight VARCHAR(15),
-description TEXT
+    id integer NOT NULL DEFAULT nextval('exercise_id_seq'::regclass),
+    name character varying(30) COLLATE pg_catalog."default",
+    sets character varying(10) COLLATE pg_catalog."default",
+    reps character varying(10) COLLATE pg_catalog."default",
+    weight character varying(15) COLLATE pg_catalog."default",
+    description text COLLATE pg_catalog."default",
+    CONSTRAINT exercise_pkey PRIMARY KEY (id)
 );
 
 create TABLE exercise_to_train_day
@@ -114,3 +128,4 @@ VALUES (1, 1, 'username1', 'pas1', 'firstname1', 'secondname2', 12345678999, 100
 (3, 3, 'username3', 'pas3', 'firstname3', 'secondname3', 345678999, 100.3),
 (4, 4, 'username4', 'pas4', 'firstname4', 'secondname4', 45678999, 100.4),
 (5, 5, 'username5', 'pas5', 'firstname5', 'secondname5', 5678999, 100.5);
+

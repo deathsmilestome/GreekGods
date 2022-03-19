@@ -78,7 +78,7 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="09df4fe5-434f-47b7-8cc7-2c01d4dd1c44" active="false" signed="false">
+      <connection id="09df4fe5-434f-47b7-8cc7-2c01d4dd1c44" active="true" signed="false">
         <database>
           <name value="GreekGods_db" />
           <description value="" />
@@ -93,8 +93,8 @@
           <port value="5432" />
           <database value="GreekGods_db" />
           <type value="USER_PASSWORD" />
-          <user value="postgres" />
-          <deprecated-pwd value="cG9zdGdyZXM=" />
+          <user value="dstm" />
+          <deprecated-pwd value="amlyYWYzNTc=" />
         </database>
         <properties>
           <auto-commit value="false" />
