@@ -28,5 +28,12 @@ fun main() {
 //    val user = User(trainCourseId, username, pas, firstName, secondName, phone, weight)
 //    user.userInfo()
 
-DatabaseHandler().getDbConnection()
+
+    //DatabaseHandler().updateTrainCourseForUser(1, 5)
+    DatabaseHandler().addUser(1, 99,"ivanchik", "kto", "ffivan", "ssivan", 1234567899, 75.4)
+//    println(DatabaseHandler().getDataForUser()[0])
+//    println(DatabaseHandler().getDataForUser()[1])
+//    println(DatabaseHandler().getDataForUser()[2])
+//    println(DatabaseHandler().getDataForUser()[3])
+//    println(DatabaseHandler().getDataForUser()[4])
 }

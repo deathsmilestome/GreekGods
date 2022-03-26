@@ -43,6 +43,7 @@
         <condition column="id" operator="=" value="" active="true" />
       </filter>
     </filter-actions>
+    <filter-actions connection-id="09df4fe5-434f-47b7-8cc7-2c01d4dd1c44" dataset="public.user_info" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />

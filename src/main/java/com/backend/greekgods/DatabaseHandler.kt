@@ -15,18 +15,38 @@ open class DatabaseHandler {
         val connect = "jdbc:postgresql://$dbHost:$dbPort/$dbName"
         return DriverManager.getConnection(connect, dbUser, dbPass)
     }
+    fun getDataForUser(): List<List<String>> {
+        val result = mutableListOf<MutableList<String>>()
+        val request = "SELECT * FROM user_info"
+        val quest = getDbConnection().prepareStatement(request)
+        val answer = quest.executeQuery()
+        while (answer.next()) {
+            val tempResult = mutableListOf<String>()
+            for (i in 1..8) {
+                tempResult.add(answer.getString(i))
+            }
+            result.add(tempResult)
+        }
+        return result
+    }
+    fun addUser ( trainCourseID: Int, eatCourseID: Long, username: String, pas: String, firstName: String, secondName: String, phone: Long, weight: Double) {
+        val request = "INSERT INTO user_info(train_course_id,eat_course_id,username,pas,first_name,second_name,phone,weight) VALUES(?,?,?,?,?,?,?,?)"
+        val conn = getDbConnection().prepareStatement(request)
+        conn.setInt(1, trainCourseID)
+        conn.setLong(2, eatCourseID)
+        conn.setString(3, username)
+        conn.setString(4, pas)
+        conn.setString(5, firstName)
+        conn.setString(6, secondName)
+        conn.setLong(7, phone)
+        conn.setDouble(8, weight)
+        conn.executeUpdate()
+    }
+    fun updateTrainCourseForUser(id: Long, trainCourseID: Int ) {
+        val request = "UPDATE user_info SET train_course_id = $trainCourseID WHERE id = $id"
+        getDbConnection().prepareStatement(request).execute()
 
-//    fun getDataForUser(): List<Long> {
-//        val result = mutableListOf<Long>()
-//        val request = "SELECT * FROM user_info"
-//        getDbConnection().use { dbConnection ->
-//            dbConnection.prepareStatement(request).use { prRequest ->
-//                val answer = prRequest.executeQuery()
-//                while (answer.next()) result.add(answer.getLong(1))
-//                return result.toList()
-//            }
-//        }
-//        return result
-//    }
-
+    }
 }
+
+
