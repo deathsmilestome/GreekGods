@@ -1,14 +1,12 @@
 package com.backend.greekgods
 
-import java.math.BigInteger
-
 class User(
         var trainCourseId: Int,
         var username: String,
         var pas: String,
         var firstName: String,
         var secondName: String,
-        var phone: BigInteger,
+        var phone: Long,
         var weight: Double
 ) {
     fun userInfo() {

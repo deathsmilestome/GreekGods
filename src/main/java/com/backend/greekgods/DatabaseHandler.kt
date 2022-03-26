@@ -29,17 +29,17 @@ open class DatabaseHandler {
         }
         return result
     }
-    fun addUser ( trainCourseID: Int, eatCourseID: Long, username: String, pas: String, firstName: String, secondName: String, phone: Long, weight: Double) {
-        val request = "INSERT INTO user_info(train_course_id,eat_course_id,username,pas,first_name,second_name,phone,weight) VALUES(?,?,?,?,?,?,?,?)"
+
+    fun addUser(trainCourseID: Int, username: String, pas: String, firstName: String, secondName: String, phone: Long, weight: Double) {
+        val request = "INSERT INTO user_info(train_course_id,username,pas,first_name,second_name,phone,weight) VALUES(?,?,?,?,?,?,?)"
         val conn = getDbConnection().prepareStatement(request)
         conn.setInt(1, trainCourseID)
-        conn.setLong(2, eatCourseID)
-        conn.setString(3, username)
-        conn.setString(4, pas)
-        conn.setString(5, firstName)
-        conn.setString(6, secondName)
-        conn.setLong(7, phone)
-        conn.setDouble(8, weight)
+        conn.setString(2, username)
+        conn.setString(3, pas)
+        conn.setString(4, firstName)
+        conn.setString(5, secondName)
+        conn.setLong(6, phone)
+        conn.setDouble(7, weight)
         conn.executeUpdate()
     }
     fun updateTrainCourseForUser(id: Long, trainCourseID: Int ) {

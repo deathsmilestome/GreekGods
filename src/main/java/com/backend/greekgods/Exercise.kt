@@ -1,4 +1,3 @@
 package com.backend.greekgods
 
-
-class Exercise(var id: Long, var name: String, var sets: String, var reps: String, var weight: String, var description: String) {}
+class Exercise(id: Long, name: String, sets: String, reps: String, weight: String, description: String) {}
