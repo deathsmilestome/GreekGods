@@ -17,7 +17,7 @@ open class DatabaseHandler {
     }
     fun getDataForUser(): List<List<String>> {
         val result = mutableListOf<MutableList<String>>()
-        val request = "SELECT * FROM user_info"
+        val request = "SELECT * FROM user_info ORDER BY id"
         val quest = getDbConnection().prepareStatement(request)
         val answer = quest.executeQuery()
         while (answer.next()) {
