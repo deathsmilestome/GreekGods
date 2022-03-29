@@ -11,7 +11,7 @@ open class DatabaseHandler {
     private val dbPass = "jiraf357"
     private val dbName = "GreekGods_db"
 
-    fun getDbConnection(): Connection {
+    private fun getDbConnection(): Connection {
         val connect = "jdbc:postgresql://$dbHost:$dbPort/$dbName"
         return DriverManager.getConnection(connect, dbUser, dbPass)
     }
@@ -30,7 +30,14 @@ open class DatabaseHandler {
         return result
     }
 
-    fun addUser(trainCourseID: Int, username: String, pas: String, firstName: String, secondName: String, phone: Long, weight: Double) {
+    fun addUser(trainCourseID: Int,
+                username: String,
+                pas: String,
+                firstName: String,
+                secondName: String,
+                phone: Long,
+                weight: Double)
+    {
         val request = "INSERT INTO user_info(train_course_id,username,pas,first_name,second_name,phone,weight) VALUES(?,?,?,?,?,?,?)"
         val conn = getDbConnection().prepareStatement(request)
         conn.setInt(1, trainCourseID)
@@ -46,6 +53,18 @@ open class DatabaseHandler {
         val request = "UPDATE user_info SET train_course_id = $trainCourseID WHERE id = $id"
         getDbConnection().prepareStatement(request).execute()
 
+    }
+
+    fun log(username: String, pas: String) {
+        val result = listOf<String>()
+        val request = "SELECT username, pas FROM user_info WHERE username = '$username' AND pas = '$pas'"
+        val quest = getDbConnection().prepareStatement(request)
+        val answer = quest.executeQuery()
+        when (answer.next()) {
+            true -> println("+")
+            else -> println("-")
+
+    }
     }
 }
 
