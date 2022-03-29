@@ -45,8 +45,15 @@ fun reg() {
             else -> println("Выберите существующий курс")
         }
     }
-    DatabaseHandler().addUser(trainCourseId,username,pas, firstName, secondName, phone,weight)
-    val user = User(trainCourseId, username, pas, firstName, secondName, phone, weight)
-//    user.userInfo()
+    try {
+        DatabaseHandler().addUser(trainCourseId,username,pas, firstName, secondName, phone,weight)
+    }
+    catch (e: org.postgresql.util.PSQLException) {
+        println("failed, try again")
+        reg()
+    }
 }
+//val user = User(trainCourseId, username, pas, firstName, secondName, phone, weight)
+//    user.userInfo()
+
 
