@@ -32,8 +32,9 @@ open class DatabaseHandler {
 
     fun getDataForUser(id: Long): List<String> {
         val result = mutableListOf<String>()
-        val request = "SELECT * FROM user_info WHERE id = $id"
+        val request = "SELECT * FROM user_info WHERE id = ?"
         val quest = getDbConnection().prepareStatement(request)
+        quest.setLong(1, id)
         val answer = quest.executeQuery()
         while (answer.next()) {
             for (i in 1..8) {
@@ -63,8 +64,13 @@ open class DatabaseHandler {
         conn.executeUpdate()
     }
     fun updateUser(id: Long, data: String, newData: String ) {
-        val request = "UPDATE user_info SET $data = $newData WHERE id = $id"
-        getDbConnection().prepareStatement(request).execute()
+        if (data.matches("""[a-z_]{1,15}""".toRegex())) {
+            val request = "UPDATE user_info SET $data = ? WHERE id = ?"
+            val statement = getDbConnection().prepareStatement(request)
+            statement.setString(1, newData)
+            statement.setLong(2, id)
+            statement.executeUpdate()
+        }
 
     }
 
@@ -73,8 +79,10 @@ open class DatabaseHandler {
         val username = readln()
         println("Pass:")
         val pas = readln()
-        val request = "SELECT username, pas FROM user_info WHERE username = '$username' AND pas = '$pas'"
+        val request = "SELECT username, pas FROM user_info WHERE username = ? AND pas = ?"
         val quest = getDbConnection().prepareStatement(request)
+        quest.setString(1, username)
+        quest.setString(2, pas)
         val answer = quest.executeQuery()
         when (answer.next()) {
             true -> {
