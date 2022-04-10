@@ -20,6 +20,7 @@ public class User() {
         this.phone = DatabaseHandler().getDataForUser(id)[6].toLong()
         this.weight = DatabaseHandler().getDataForUser(id)[7].toDouble()
     }
+
     fun userInfo() {
         println(this.id)
         println(this.trainCourseId)
@@ -30,4 +31,6 @@ public class User() {
         println(this.phone)
         println(this.weight)
     }
+
+    fun getWeight() = this.weight
 }
