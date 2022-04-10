@@ -11,7 +11,7 @@ open class DatabaseHandler {
     private val dbPass = "jiraf357"
     private val dbName = "GreekGods_db"
 
-    private fun getDbConnection(): Connection {
+    fun getDbConnection(): Connection {
         val connect = "jdbc:postgresql://$dbHost:$dbPort/$dbName"
         return DriverManager.getConnection(connect, dbUser, dbPass)
     }
@@ -67,33 +67,15 @@ open class DatabaseHandler {
         if (data.matches("""[a-z_]{1,15}""".toRegex())) {
             val request = "UPDATE user_info SET $data = ? WHERE id = ?"
             val statement = getDbConnection().prepareStatement(request)
-            statement.setString(1, newData)
+            when (data) {
+                "phone" ->  statement.setLong(1, newData.toLong())
+                "weight" -> statement.setDouble(1, newData.toDouble())
+                else -> statement.setString(1, newData)
+            }
             statement.setLong(2, id)
             statement.executeUpdate()
         }
 
-    }
-
-    fun log(): Boolean {
-        println("Username:")
-        val username = readln()
-        println("Pass:")
-        val pas = readln()
-        val request = "SELECT username, pas FROM user_info WHERE username = ? AND pas = ?"
-        val quest = getDbConnection().prepareStatement(request)
-        quest.setString(1, username)
-        quest.setString(2, pas)
-        val answer = quest.executeQuery()
-        when (answer.next()) {
-            true -> {
-                println("krasava")
-                return true
-            }
-            else -> {
-                println("nea :(")
-                return false
-            }
-    }
     }
 }
 
