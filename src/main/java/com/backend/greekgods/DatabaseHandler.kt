@@ -75,7 +75,25 @@ open class DatabaseHandler {
             statement.setLong(2, id)
             statement.executeUpdate()
         }
+    }
 
+    fun allInfo(id: Long): MutableList<String> {
+        val result = mutableListOf<String>()
+        val request = "SELECT * FROM user_info \n" +
+                "JOIN train_course on user_info.train_course_id = train_course .id\n" +
+                "JOIN train_day_to_train_course on train_course.id = train_day_to_train_course.id_train_course\n" +
+                "JOIN train_day on train_day_to_train_course.id_train_day = train_day.id\n" +
+                "JOIN exercise_to_train_day on train_day.id = exercise_to_train_day.id_train_day\n" +
+                "JOIN exercise on exercise_to_train_day.id_exercise = exercise.id\n" +
+                "WHERE user_info.id = ? ORDER BY train_day_name;"
+        val statement = getDbConnection().prepareStatement(request)
+        statement.setLong(1, id)
+        val answer = statement.executeQuery()
+        while (answer.next()) {
+            for (i in 1..23)
+            result.add(answer.getString(i))
+        }
+        return result
     }
 }
 

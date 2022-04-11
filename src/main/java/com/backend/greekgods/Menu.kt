@@ -3,7 +3,7 @@ package com.backend.greekgods
 class Menu {
     fun startMenu() {
         var menuStatus = 999
-        println("Choose:\n1 - info\n2 - change smth\n3 - diet\n0 - exit")
+        println("Choose:\n1 - info\n2 - change smth\n3 - diet\n4 - trains\n0 - exit")
         while (menuStatus != 0) {
             menuStatus = readln().toInt()
             when (menuStatus) {
@@ -36,6 +36,16 @@ class Menu {
                             "\ncarbs: ${weight * 2}" +
                             "\nfats: ${weight * 0.9}" +
                             "\nwater: ${weight * 0.05}")
+                }
+                4 -> {
+                    val temp = DatabaseHandler().allInfo(id)
+                    println("Train course: ${temp[9]}")
+                    for (i in 0 until  temp.size step 23) {
+                        if (i != 0 && temp[i + 13] == temp[i - 10])
+                            println("-${temp[i + 18]}: ${temp[i + 19]} sets for ${temp[i + 20]} reps with ${temp[i + 21]} (${temp[i + 22]})")
+                        else println("Train day ${i / 23 + 1}: ${temp[i + 13]}\n" +
+                            "-${temp[i + 18]}: ${temp[i + 19]} sets for ${temp[i + 20]} reps with ${temp[i + 21]} (${temp[i + 22]})")
+                }
                 }
                 else -> println("?")
             }
