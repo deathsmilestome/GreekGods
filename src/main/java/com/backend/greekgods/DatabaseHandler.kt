@@ -64,7 +64,7 @@ open class DatabaseHandler {
         conn.executeUpdate()
     }
     fun updateUser(id: Long, data: String, newData: String ) {
-        if (data.matches("""[a-z_]{1,15}""".toRegex())) {
+        if (data.matches("""[a-z_]{1,15}""".toRegex())) {//-regex
             val request = "UPDATE user_info SET $data = ? WHERE id = ?"
             val statement = getDbConnection().prepareStatement(request)
             when (data) {
@@ -85,7 +85,7 @@ open class DatabaseHandler {
                 "JOIN train_day on train_day_to_train_course.id_train_day = train_day.id\n" +
                 "JOIN exercise_to_train_day on train_day.id = exercise_to_train_day.id_train_day\n" +
                 "JOIN exercise on exercise_to_train_day.id_exercise = exercise.id\n" +
-                "WHERE user_info.id = ? ORDER BY train_day_name;"
+                "WHERE user_info.id = ? ORDER BY train_day_name;"// SELECT
         val statement = getDbConnection().prepareStatement(request)
         statement.setLong(1, id)
         val answer = statement.executeQuery()
