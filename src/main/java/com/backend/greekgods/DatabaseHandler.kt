@@ -64,7 +64,6 @@ open class DatabaseHandler {
         conn.executeUpdate()
     }
     fun updateUser(id: Long, data: String, newData: String ) {
-        if (data.matches("""[a-z_]{1,15}""".toRegex())) {//-regex
             val request = "UPDATE user_info SET $data = ? WHERE id = ?"
             val statement = getDbConnection().prepareStatement(request)
             when (data) {
@@ -74,24 +73,36 @@ open class DatabaseHandler {
             }
             statement.setLong(2, id)
             statement.executeUpdate()
-        }
+
     }
 
     fun allInfo(id: Long): MutableList<String> {
         val result = mutableListOf<String>()
-        val request = "SELECT * FROM user_info \n" +
+        val request = "SELECT course_name, train_day_name, exercise_name, sets, reps, exercise.weight, description FROM user_info \n" +
                 "JOIN train_course on user_info.train_course_id = train_course .id\n" +
                 "JOIN train_day_to_train_course on train_course.id = train_day_to_train_course.id_train_course\n" +
                 "JOIN train_day on train_day_to_train_course.id_train_day = train_day.id\n" +
                 "JOIN exercise_to_train_day on train_day.id = exercise_to_train_day.id_train_day\n" +
                 "JOIN exercise on exercise_to_train_day.id_exercise = exercise.id\n" +
-                "WHERE user_info.id = ? ORDER BY train_day_name;"// SELECT
+                "WHERE user_info.id = ? ORDER BY train_day_name;"
         val statement = getDbConnection().prepareStatement(request)
         statement.setLong(1, id)
         val answer = statement.executeQuery()
         while (answer.next()) {
-            for (i in 1..23)
+            for (i in 1..7)
             result.add(answer.getString(i))
+        }
+        return result
+    }
+
+    fun getCourses(): MutableList<String> {
+        val result = mutableListOf<String>()
+        val request = "SELECT course_name FROM train_course"
+        val quest = getDbConnection().prepareStatement(request)
+        val answer = quest.executeQuery()
+        while (answer.next()) {
+            result.add(answer.getString(1))
+
         }
         return result
     }

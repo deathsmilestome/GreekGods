@@ -22,14 +22,16 @@ public class User() {
     }
 
     fun userInfo() {
-        println(this.id)
-        println(this.trainCourseId)
-        println(this.username)
-        println(this.pas)
-        println(this.firstName)
-        println(this.secondName)
-        println(this.phone)
-        println(this.weight)
+        println("------------------------------------")
+        println("|Your ID: ${this.id}")
+        println("|Your train course: ${DatabaseHandler().getCourses()[this.trainCourseId]}")
+        println("|Your username: ${this.username}")
+        println("|Your pass: ${ this.pas }")
+        println("|Your first name: ${this.firstName}")
+        println("|Your second name: ${this.secondName}")
+        println("|Your phone: ${this.phone}")
+        println("|Your weight: ${this.weight}")
+        println("------------------------------------")
     }
 
     fun getWeight() = this.weight

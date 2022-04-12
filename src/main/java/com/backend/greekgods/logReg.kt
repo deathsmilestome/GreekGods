@@ -13,7 +13,11 @@ fun reg() {
     val phone = readln().toLong()
     println("weight like XX.X:")
     val weight = readln().toDouble()
-    println("Choose your course: \n1 - strenght \n2 - flex \n3 - i am a pussy \n4 - bodybild \n5 - fullbody ")//refactor
+    var countCourses = 1
+    for (i in DatabaseHandler().getCourses()) {
+        println("Chose your course\n$countCourses - $i")
+        countCourses++
+    }
     var trainCourseId = 0
     while (trainCourseId == 0) {
         when (readln().toInt()) {

@@ -12,7 +12,15 @@ class Menu {
         while (menuStatus != 0) {
             menuStatus = readln().toInt()
             when (menuStatus) {
-                1 -> user.userInfo()
+                1 -> {
+                    user.userInfo()
+                    println("Choose:" +
+                            "\n1 - info" +
+                            "\n2 - change smth" +
+                            "\n3 - diet" +
+                            "\n4 - trains" +
+                            "\n0 - exit")
+                }
                 2 -> {
                     println("change what?" +
                             "\n1 - username" +
@@ -38,25 +46,51 @@ class Menu {
                     println("send new info")
                     val newData = readln()
                     DatabaseHandler().updateUser(id, data, newData)
+                    println("Choose:" +
+                            "\n1 - info" +
+                            "\n2 - change smth" +
+                            "\n3 - diet" +
+                            "\n4 - trains" +
+                            "\n0 - exit")
                 }
                 3 -> {
                     val weight = user.getWeight()
-                    println("Your weight: $weight" +
-                            "\nkcal: ${weight * 50}" +
-                            "\nproteins: ${weight * 1.8}" +
-                            "\ncarbs: ${weight * 2}" +
-                            "\nfats: ${weight * 0.9}" +
-                            "\nwater: ${weight * 0.05}")
+                    println("------------------------------------" +
+                            "\n|Your weight: $weight" +
+                            "\n|kcal: ${weight * 50}" +
+                            "\n|proteins: ${weight * 1.8}" +
+                            "\n|carbs: ${weight * 2}" +
+                            "\n|fats: ${weight * 0.9}" +
+                            "\n|water: ${weight * 0.05}" +
+                            "\n------------------------------------")
+                    println("Choose:" +
+                            "\n1 - info" +
+                            "\n2 - change smth" +
+                            "\n3 - diet" +
+                            "\n4 - trains" +
+                            "\n0 - exit")
                 }
                 4 -> {
                     val temp = DatabaseHandler().allInfo(id)
-                    println("Train course: ${temp[9]}")
-                    for (i in 0 until  temp.size step 23) {
-                        if (i != 0 && temp[i + 13] == temp[i - 10])
-                            println("-${temp[i + 18]}: ${temp[i + 19]} sets for ${temp[i + 20]} reps with ${temp[i + 21]} (${temp[i + 22]})")
-                        else println("Train day ${i / 23 + 1}: ${temp[i + 13]}\n" +
-                            "-${temp[i + 18]}: ${temp[i + 19]} sets for ${temp[i + 20]} reps with ${temp[i + 21]} (${temp[i + 22]})")
+                    var countDays = 0
+                    println("------------------------------------" +
+                            "\nTrain course: ${temp[0]}")
+                    for (i in 0 until  temp.size step 7) {
+                        if (i != 0 && temp[i + 1] == temp[i - 6])
+                            println("-${temp[i + 2]}: ${temp[i + 3]} sets for ${temp[i + 4]} reps with ${temp[i + 5]} (${temp[i + 6]})")
+                        else {
+                            countDays++
+                            println("Train day ${countDays}: ${temp[i + 1]}\n" +
+                                    "-${temp[i + 2]}: ${temp[i + 3]} sets for ${temp[i + 4]} reps with ${temp[i + 5]} (${temp[i + 6]})")
+                        }
                     }
+                    println("------------------------------------")
+                    println("Choose:" +
+                            "\n1 - info" +
+                            "\n2 - change smth" +
+                            "\n3 - diet" +
+                            "\n4 - trains" +
+                            "\n0 - exit")
                 }
                 else -> println("?")
             }
