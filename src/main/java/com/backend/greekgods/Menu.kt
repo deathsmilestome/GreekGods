@@ -1,25 +1,23 @@
 package com.backend.greekgods
 
 class Menu {
-    fun startMenu() {
-        var menuStatus = 999
+    private fun showMenu() {
         println("Choose:" +
                 "\n1 - info" +
                 "\n2 - change smth" +
                 "\n3 - diet" +
                 "\n4 - trains" +
                 "\n0 - exit")
+    }
+    fun startMenu() {
+        var menuStatus = 999
+        showMenu()
         while (menuStatus != 0) {
             menuStatus = readln().toInt()
             when (menuStatus) {
                 1 -> {
                     user.userInfo()
-                    println("Choose:" +
-                            "\n1 - info" +
-                            "\n2 - change smth" +
-                            "\n3 - diet" +
-                            "\n4 - trains" +
-                            "\n0 - exit")
+                    showMenu()
                 }
                 2 -> {
                     println("change what?" +
@@ -46,12 +44,7 @@ class Menu {
                     println("send new info")
                     val newData = readln()
                     DatabaseHandler().updateUser(id, data, newData)
-                    println("Choose:" +
-                            "\n1 - info" +
-                            "\n2 - change smth" +
-                            "\n3 - diet" +
-                            "\n4 - trains" +
-                            "\n0 - exit")
+                    showMenu()
                 }
                 3 -> {
                     val weight = user.getWeight()
@@ -63,12 +56,7 @@ class Menu {
                             "\n|fats: ${weight * 0.9}" +
                             "\n|water: ${weight * 0.05}" +
                             "\n------------------------------------")
-                    println("Choose:" +
-                            "\n1 - info" +
-                            "\n2 - change smth" +
-                            "\n3 - diet" +
-                            "\n4 - trains" +
-                            "\n0 - exit")
+                    showMenu()
                 }
                 4 -> {
                     val temp = DatabaseHandler().allInfo(id)
@@ -85,16 +73,11 @@ class Menu {
                         }
                     }
                     println("------------------------------------")
-                    println("Choose:" +
-                            "\n1 - info" +
-                            "\n2 - change smth" +
-                            "\n3 - diet" +
-                            "\n4 - trains" +
-                            "\n0 - exit")
+                    showMenu()
                 }
+                0 -> println("Goodbye;)")
                 else -> println("?")
             }
         }
-        println("Goodbye;)")
     }
 }
