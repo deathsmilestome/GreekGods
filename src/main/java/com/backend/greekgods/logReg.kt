@@ -14,10 +14,15 @@ fun reg() {
     println("weight like XX.X:")
     val weight = readln().toDouble()
     var countCourses = 1
-    for (i in DatabaseHandler().getCourses()) {
-        println("Chose your course\n$countCourses - $i")
-        countCourses++
+    val threadCourses = Thread {
+        println("Chose your course")
+        for (i in DatabaseHandler().getCourses()) {
+            println("$countCourses - $i")
+            countCourses++
+        }
     }
+    threadCourses.start()
+    threadCourses.join()
     var trainCourseId = 0
     while (trainCourseId == 0) {
         when (readln().toInt()) {
@@ -30,7 +35,11 @@ fun reg() {
         }
     }
     try {
-        DatabaseHandler().addUser(trainCourseId, username, pas, firstName, secondName, phone, weight)
+        val threadReg = Thread {
+            DatabaseHandler().addUser(trainCourseId, username, pas, firstName, secondName, phone, weight)
+        }
+        threadReg.start()
+        threadReg.join()
     } catch (e: org.postgresql.util.PSQLException) {
         println("failed, try again")
         reg()
@@ -69,7 +78,11 @@ fun logReg() {
         when (readln().toInt()) {
             1 -> {
                 logReg = 1
-                logStatus = log()
+                val threadForLogStatus = Thread {
+                    logStatus = log()
+                }
+                threadForLogStatus.start()
+                threadForLogStatus.join()
             }
             2 -> {
                 reg()
@@ -80,7 +93,5 @@ fun logReg() {
     }
 
 }
-//val user = User(trainCourseId, username, pas, firstName, secondName, phone, weight)
-//    user.userInfo()
 
 

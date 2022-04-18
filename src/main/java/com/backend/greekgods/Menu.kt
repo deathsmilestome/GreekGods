@@ -11,12 +11,15 @@ class Menu {
     }
     fun startMenu() {
         var menuStatus = 999
+        var tempThread: Thread
         showMenu()
         while (menuStatus != 0) {
             menuStatus = readln().toInt()
             when (menuStatus) {
                 1 -> {
-                    user.userInfo()
+                    tempThread = Thread { user.userInfo() }
+                    tempThread.start()
+                    tempThread.join()
                     showMenu()
                 }
                 2 -> {
@@ -43,7 +46,9 @@ class Menu {
                     }
                     println("send new info")
                     val newData = readln()
-                    DatabaseHandler().updateUser(id, data, newData)
+                    tempThread = Thread {DatabaseHandler().updateUser(id, data, newData)}
+                    tempThread.start()
+                    tempThread.join()
                     showMenu()
                 }
                 3 -> {
@@ -59,20 +64,25 @@ class Menu {
                     showMenu()
                 }
                 4 -> {
-                    val temp = DatabaseHandler().allInfo(id)
-                    var countDays = 0
-                    println("------------------------------------" +
-                            "\nTrain course: ${temp[0]}")
-                    for (i in 0 until  temp.size step 7) {
-                        if (i != 0 && temp[i + 1] == temp[i - 6])
-                            println("-${temp[i + 2]}: ${temp[i + 3]} sets for ${temp[i + 4]} reps with ${temp[i + 5]} (${temp[i + 6]})")
-                        else {
-                            countDays++
-                            println("Train day ${countDays}: ${temp[i + 1]}\n" +
-                                    "-${temp[i + 2]}: ${temp[i + 3]} sets for ${temp[i + 4]} reps with ${temp[i + 5]} (${temp[i + 6]})")
+                    tempThread = Thread {
+                        DatabaseHandler().allInfo(id)
+                        val temp = DatabaseHandler().allInfo(id)
+                        var countDays = 0
+                        println("------------------------------------" +
+                                "\nTrain course: ${temp[0]}")
+                        for (i in 0 until  temp.size step 7) {
+                            if (i != 0 && temp[i + 1] == temp[i - 6])
+                                println("-${temp[i + 2]}: ${temp[i + 3]} sets for ${temp[i + 4]} reps with ${temp[i + 5]} (${temp[i + 6]})")
+                            else {
+                                countDays++
+                                println("Train day ${countDays}: ${temp[i + 1]}\n" +
+                                        "-${temp[i + 2]}: ${temp[i + 3]} sets for ${temp[i + 4]} reps with ${temp[i + 5]} (${temp[i + 6]})")
+                                }
                         }
+                        println("------------------------------------")
                     }
-                    println("------------------------------------")
+                    tempThread.start()
+                    tempThread.join()
                     showMenu()
                 }
                 0 -> println("Goodbye;)")
